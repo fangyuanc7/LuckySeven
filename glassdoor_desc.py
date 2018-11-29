@@ -4,6 +4,30 @@ import requests
 from bs4 import BeautifulSoup
 import time
 
+def get_job_description(job_url):
+    import requests
+    from bs4 import BeautifulSoup
+    
+    headers = {
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'accept-encoding': 'gzip, deflate, sdch, br',
+        'accept-language': 'en-GB,en-US;q=0.8,en;q=0.6',
+        'referer': 'https://www.glassdoor.com/',
+        'upgrade-insecure-requests': '1',
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/51.0.2704.79 Chrome/51.0.2704.79 Safari/537.36',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive'
+    }
+    job_description = ''
+    response = requests.post(job_url, headers=headers)
+    if response.status_code != 200:
+        return (job_description, 0)
+    result = BeautifulSoup(response.content,'lxml')
+    if not result.find('div', class_='jobDesc'):
+        return (job_description, 1)
+    return (result.find('div', class_='jobDesc').get_text(), 0)
+
+
 def get_job_list(place, keyword):
     import requests
     from bs4 import BeautifulSoup
@@ -70,10 +94,13 @@ def get_job_list(place, keyword):
                         job_salary = job.find('span', class_='green small').get_text()[1:]
                     else:
                         job_salary = ''
-                    result_list.append((job_name, job_company, job_city, job_state, job_salary, job_url))
+                    job_description, status = get_job_description(job_url)
+                    if status == 1:
+                        return result_list
+                    result_list.append((job_name, job_company, job_city, job_state, job_salary, job_description, job_url))
                     
                 if not results_page.find('li', class_='next'):
-                    break   # only one page
+                    break   # only one page    
                 if not results_page.find('li', class_='next').find('a'):
                     break   # reach the end page
                 # next page
@@ -88,35 +115,36 @@ def get_job_list(place, keyword):
         print('Fail to find jobs.')
 
 
+
 if __name__ == "__main__":
 
-	''' eg-:python glassdoor.py "Android developer", "los angeles" '''
+    ''' eg-:python glassdoor_desc.py "Android developer", "los angeles" '''
 
-	argparser = argparse.ArgumentParser()
-	argparser.add_argument('keyword', help='job name', type=str)
-	argparser.add_argument('place', help='job location', type=str)
-	args = argparser.parse_args()
-	keyword = args.keyword
-	place = args.place
-	print("Fetching job details...")
-	result = get_job_list(place, keyword)
-	if result:
-		print("Writing data to output file...")
-		job_list = list()
-		for job in result:
-		    job_list.append({'Name': job[0], 
-		                     'Company': job[1], 
-		                     'City': job[2],
-		                     'State': job[3],
-		                     'Salary': job[4], 
-		                     'Url': job[5]})
-		with open('%s-%s-job-results.csv' % (keyword, place), 'wb') as csvfile:
-		    fieldnames = ['Name', 'Company', 'City', 'State', 'Salary', 'Url']
-		    writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
-		    writer.writeheader()
-		    for job in job_list:
-		        writer.writerow(job)
-		print('Done!')
-	else:
-		print("Unable to find jobs for %s, in %s"%(keyword,place))
-
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument('keyword', help='job name', type=str)
+    argparser.add_argument('place', help='job location', type=str)
+    args = argparser.parse_args()
+    keyword = args.keyword
+    place = args.place
+    print("Fetching job details...")
+    result = get_job_list(place, keyword)
+    if result:
+        print("Writing data to output file...")
+        job_list = list()
+        for job in result:
+            job_list.append({'Name': job[0], 
+                             'Company': job[1], 
+                             'City': job[2],
+                             'State': job[3],
+                             'Salary': job[4], 
+                             'Description': job[5],
+                             'Url': job[6]})
+        with open('%s-%s-job-results-desc.csv' % (keyword, place), 'wb') as csvfile:
+            fieldnames = ['Name', 'Company', 'City', 'State', 'Salary','Description', 'Url']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
+            writer.writeheader()
+            for job in job_list:
+                writer.writerow(job)
+        print('Done!')
+    else:
+        print("Unable to find jobs for %s, in %s"%(keyword,place))
