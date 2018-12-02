@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 
-def get_job_list(place, keyword):
+def get_job_list(place: str, keyword: str) -> list:
     import requests
     from bs4 import BeautifulSoup
     import time

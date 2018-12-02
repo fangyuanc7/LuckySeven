@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 
-def get_job_description(job_url):
+def get_job_description(job_url: str) -> str:
     import requests
     from bs4 import BeautifulSoup
     
@@ -28,7 +28,7 @@ def get_job_description(job_url):
     return (result.find('div', class_='jobDesc').get_text(), 0)
 
 
-def get_job_list(place, keyword):
+def get_job_list(place: str, keyword: str) -> list:
     import requests
     from bs4 import BeautifulSoup
     import time
