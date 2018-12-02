@@ -4,6 +4,7 @@ import getopt
 import warnings
 import web_scraping
 import merge_csv
+import state_map
 
 # do not output warnings
 warnings.filterwarnings('ignore')
@@ -11,7 +12,7 @@ warnings.filterwarnings('ignore')
 if "__main__" == __name__:   
       
     try:  
-        opts,args = getopt.getopt(sys.argv[1:], "d:fm:", ["input"])
+        opts,args = getopt.getopt(sys.argv[1:], "d:fm:s", ["input"])
           
         print("============ opts ==================");         
         print(opts);  
@@ -82,6 +83,8 @@ if "__main__" == __name__:
                 output, name = merge_csv.merge_csv(path)
                 output.to_csv(name+'.csv', index=False)
                 print('Done!')
+            if opt[0] == '-s':
+                state_map.get_graph()
 
           
     except getopt.GetoptError:  
