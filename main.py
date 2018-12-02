@@ -1,13 +1,17 @@
-
 import unicodecsv as csv
 import sys
 import getopt
+import warnings
 import web_scraping
+import merge_csv
+
+# do not output warnings
+warnings.filterwarnings('ignore')
 
 if "__main__" == __name__:   
       
     try:  
-        opts,args = getopt.getopt(sys.argv[1:], "d:f", ["input"])
+        opts,args = getopt.getopt(sys.argv[1:], "d:fm:", ["input"])
           
         print("============ opts ==================");         
         print(opts);  
@@ -72,7 +76,12 @@ if "__main__" == __name__:
                         print('Done!')
                     else:
                         print("Unable to find jobs for %s, in %s"%(keyword,place))
-
+            if opt[0] == '-m':
+                path = opt[1]
+                print("Merging csv files...")
+                output, name = merge_csv.merge_csv(path)
+                output.to_csv(name+'.csv', index=False)
+                print('Done!')
 
           
     except getopt.GetoptError:  
