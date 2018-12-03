@@ -69,7 +69,7 @@ table = widgetbox(data_table)
 
 
 curdoc().add_root(row(controls,table))
-curdoc().title = "TEST Tools Project"
+curdoc().title = "Job Selecting"
 
 update()
 
