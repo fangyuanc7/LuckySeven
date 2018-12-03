@@ -5,6 +5,7 @@ import warnings
 import web_scraping
 import merge_csv
 import state_map
+import barchart_averagesalary
 
 # do not output warnings
 warnings.filterwarnings('ignore')
@@ -12,7 +13,7 @@ warnings.filterwarnings('ignore')
 if "__main__" == __name__:   
       
     try:  
-        opts,args = getopt.getopt(sys.argv[1:], "d:fm:s", ["input"])
+        opts,args = getopt.getopt(sys.argv[1:], "d:fm:sb", ["input"])
           
         print("============ opts ==================");         
         print(opts);  
@@ -85,6 +86,8 @@ if "__main__" == __name__:
                 print('Done!')
             if opt[0] == '-s':
                 state_map.get_graph()
+            if opt[0] == '-b':
+                barchart_averagesalary.get_barplot_average_salary()
 
           
     except getopt.GetoptError:  
