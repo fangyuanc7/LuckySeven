@@ -3,11 +3,14 @@ import sys
 import getopt
 import warnings
 import subprocess
+
+# import local py files
 import web_scraping
 import merge_csv
 import state_map
 import barchart_averagesalary
 import barchart_salaryrange
+import data_cleaning
 
 # do not output warnings
 warnings.filterwarnings('ignore')
@@ -15,7 +18,7 @@ warnings.filterwarnings('ignore')
 if "__main__" == __name__:   
       
     try:  
-        opts,args = getopt.getopt(sys.argv[1:], "d:fm:sblq", ["input"])
+        opts,args = getopt.getopt(sys.argv[1:], "d:fm:sblqc", ["input"])
           
         print("============ opts ==================");         
         print(opts);  
@@ -29,7 +32,7 @@ if "__main__" == __name__:
             if opt[0] == '-d':
                 print(web_scraping.get_job_description(opt[1])[0])
 
-            # function to 
+            # function to fetch job data from glass door
             if opt[0] == '-f':
                 if int(args[0]):
                     # 0 stands for no need of description
@@ -83,12 +86,18 @@ if "__main__" == __name__:
                         print('Done!')
                     else:
                         print("Unable to find jobs for %s, in %s"%(keyword,place))
+
+            # function to merge local csvs
             if opt[0] == '-m':
                 path = opt[1]
                 print("Merging csv files...")
                 output, name = merge_csv.merge_csv(path)
                 output.to_csv(name+'.csv', index=False)
                 print('Done!')
+
+            # function to clean the dataset
+            if opt[0] == '-c':
+                data_cleaning.get_cleaned_dataset()
 
             # function to output graphs
             if opt[0] == '-s':
@@ -97,6 +106,8 @@ if "__main__" == __name__:
                 barchart_averagesalary.get_barplot_average_salary()
             if opt[0] == '-q':
                 barchart_salaryrange.get_barplot_salaryrange()
+
+            # function to get the filters
             if opt[0] == '-l':
                 subprocess.call("bokeh serve filters.py --show", shell=True)
 
