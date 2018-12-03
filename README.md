@@ -34,7 +34,7 @@ Run
 python main.py -h
 ```
 for help scripts, which is like:
-![GitHub](https://github.com/fangyuanc7/LuckySeven/blob/master/parameters.png)
+![GitHub](https://github.com/fangyuanc7/LuckySeven/blob/master/examples/parameters.png)
 We can use different parameters to get different functions.
 
 ### Web Scarping ###
@@ -62,15 +62,21 @@ python main.py -s
 python main.py -b
 python main.py -q
 ```
+for example:
+![GitHub](https://github.com/fangyuanc7/LuckySeven/blob/master/examples/average_salary_bar_example.png)
+![GitHub](https://github.com/fangyuanc7/LuckySeven/blob/master/examples/map_result_example.png)
+![GitHub](https://github.com/fangyuanc7/LuckySeven/blob/master/examples/salary_range_bar_example.png)
 
 ### Filter System ###
 The filter system we established allows the user to get a list of the desired BA positions based on certain requirements. The requirements including city, keywords, minimum salary and company. Users can also scroll down the list and get more information about job description.
 ```
 python main.py -l
 ```
+![GitHub](https://github.com/fangyuanc7/LuckySeven/blob/master/examples/filters_result_example.png)
 
 ### Word Cloud ###
 The wordcloud we established provides users a graph that contains heterogeneous words with different sizes. The more a specific word appears in the job description for each cities, the bigger and bolder it appears in the word cloud.
 ```
 python main.py -w "new orleans"
 ```
+![GitHub](https://github.com/fangyuanc7/LuckySeven/blob/master/examples/words_cloud_example.png)
