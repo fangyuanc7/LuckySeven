@@ -5,7 +5,8 @@ import plotly.graph_objs as go
 from plotly.offline import init_notebook_mode,iplot
 import matplotlib.pyplot as plt
 import plotly.plotly as py
-
+import plotly.tools as tls
+tls.set_credentials_file(username = 'shmylm', api_key = 'rJXTWcMKPD4xWVrXqF1W')
 init_notebook_mode(connected=True)
 
 # Creat two lists named Lower_Salary and Upper_Salary, which corresponding to the Salary_Lower_Bound 
