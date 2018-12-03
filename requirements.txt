@@ -1,0 +1,6 @@
+pip install Pandas
+pip install Numpy
+pip install Plotly
+pip install Bokeh
+pip install WordCloud
+pip install nltk
