@@ -11,6 +11,7 @@ import state_map
 import barchart_averagesalary
 import barchart_salaryrange
 import data_cleaning
+import word_cloud
 
 # do not output warnings
 warnings.filterwarnings('ignore')
@@ -18,7 +19,7 @@ warnings.filterwarnings('ignore')
 if "__main__" == __name__:   
       
     try:  
-        opts,args = getopt.getopt(sys.argv[1:], "d:fm:sblqc", ["input"])
+        opts,args = getopt.getopt(sys.argv[1:], "d:fm:sblqcw:", ["input"])
           
         print("============ opts ==================");         
         print(opts);  
@@ -111,6 +112,9 @@ if "__main__" == __name__:
             if opt[0] == '-l':
                 subprocess.call("bokeh serve filters.py --show", shell=True)
 
+            # function to output wordcloud
+            if opt[0] == '-w':
+                word_cloud.text_mining(opt[1])
           
     except getopt.GetoptError:  
         print("getopt error!")
