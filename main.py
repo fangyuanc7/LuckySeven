@@ -25,18 +25,19 @@ if "__main__" == __name__:
                 print('''
 parameters:
 
--h                       show this help message and exit
--d <url>                 print the descrption of the job from url
--f <0/1> <title> <place> fetch job from glassdoor, 0/1: without/with description
-                         eg: -f 0 "business analyst" "new orleans" 
--m                       merge local csv files
--c                       clean local BA_job.csv
--s                       output state heat map of ba jobs
--b                       output a barchart of average salary of ba jobs
--q                       output a barchart of salary range of ba jobs
--l                       job filter of ba jobs
--w <place>               output wordcloud for ba jobs in a specific city
-                         eg: -w "new orleans"
+-h                           show this help message and exit
+-d "<url>"                   print the descrption of the job from url
+-f <0/1> "<title>" "<place>" fetch job from glassdoor, 
+                             0/1: without/with description
+                             eg: -f 0 "business analyst" "new orleans" 
+-m                           merge local csv files
+-c                           clean local BA_job.csv
+-s                           output state heat map of ba jobs
+-b                           output a barchart of average salary of ba jobs
+-q                           output a barchart of salary range of ba jobs
+-l                           job filter of ba jobs
+-w "<place>"                 output wordcloud for ba jobs in a specific city
+                             eg: -w "new orleans"
                  ''')
                  
 
@@ -108,7 +109,9 @@ parameters:
 
             # function to clean the dataset
             if opt[0] == '-c':
+                print('Cleaning raw data...')
                 data_cleaning.get_cleaned_dataset()
+                print('Done!')
 
             # function to output graphs
             if opt[0] == '-s':
@@ -127,6 +130,7 @@ parameters:
 
             # function to output wordcloud
             if opt[0] == '-w':
+                print('Loading...')
                 word_cloud.text_mining(opt[1])
           
     except getopt.GetoptError:  
