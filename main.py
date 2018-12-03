@@ -7,9 +7,6 @@ import subprocess
 # import local py files
 import web_scraping
 import merge_csv
-import state_map
-import barchart_averagesalary
-import barchart_salaryrange
 import data_cleaning
 import word_cloud
 
@@ -19,16 +16,30 @@ warnings.filterwarnings('ignore')
 if "__main__" == __name__:   
       
     try:  
-        opts,args = getopt.getopt(sys.argv[1:], "d:fm:sblqcw:", ["input"])
-          
-        print("============ opts ==================");         
-        print(opts);  
-      
-        print("============ args ==================");  
-        print(args);  
+        opts,args = getopt.getopt(sys.argv[1:], "hd:fmsblqcw:", ["input"]) 
 
         #check all param  
         for opt in opts:
+            # to get the help page
+            if opt[0] == '-h':
+                print('''
+parameters:
+
+-h                       show this help message and exit
+-d <url>                 print the descrption of the job from url
+-f <0/1> <title> <place> fetch job from glassdoor, 0/1: without/with description
+                         eg: -f 0 "business analyst" "new orleans" 
+-m                       merge local csv files
+-c                       clean local BA_job.csv
+-s                       output state heat map of ba jobs
+-b                       output a barchart of average salary of ba jobs
+-q                       output a barchart of salary range of ba jobs
+-l                       job filter of ba jobs
+-w <place>               output wordcloud for ba jobs in a specific city
+                         eg: -w "new orleans"
+                 ''')
+                 
+
             # function to get job description from a url
             if opt[0] == '-d':
                 print(web_scraping.get_job_description(opt[1])[0])
@@ -90,9 +101,8 @@ if "__main__" == __name__:
 
             # function to merge local csvs
             if opt[0] == '-m':
-                path = opt[1]
                 print("Merging csv files...")
-                output, name = merge_csv.merge_csv(path)
+                output, name = merge_csv.merge_csv('./')
                 output.to_csv(name+'.csv', index=False)
                 print('Done!')
 
@@ -102,10 +112,13 @@ if "__main__" == __name__:
 
             # function to output graphs
             if opt[0] == '-s':
+                import state_map
                 state_map.get_graph()
             if opt[0] == '-b':
+                import barchart_averagesalary
                 barchart_averagesalary.get_barplot_average_salary()
             if opt[0] == '-q':
+                import barchart_salaryrange
                 barchart_salaryrange.get_barplot_salaryrange()
 
             # function to get the filters
