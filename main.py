@@ -2,6 +2,7 @@ import unicodecsv as csv
 import sys
 import getopt
 import warnings
+import subprocess
 import web_scraping
 import merge_csv
 import state_map
@@ -13,7 +14,7 @@ warnings.filterwarnings('ignore')
 if "__main__" == __name__:   
       
     try:  
-        opts,args = getopt.getopt(sys.argv[1:], "d:fm:sb", ["input"])
+        opts,args = getopt.getopt(sys.argv[1:], "d:fm:sbl", ["input"])
           
         print("============ opts ==================");         
         print(opts);  
@@ -88,6 +89,8 @@ if "__main__" == __name__:
                 state_map.get_graph()
             if opt[0] == '-b':
                 barchart_averagesalary.get_barplot_average_salary()
+            if opt[0] == '-l':
+                subprocess.call("bokeh serve filters.py --show", shell=True)
 
           
     except getopt.GetoptError:  
