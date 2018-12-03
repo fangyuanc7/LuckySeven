@@ -3,7 +3,7 @@ IEOR 4501: Tools for Analytics
 
 ## Group Information
 + Group name: LuckySeven
-+ Group members: Yilun Cheng, Fangyuan Chen, Yanqi Zhang, Quenu Cheng
++ Group members: Yilun Cheng, Fangyuan Chen, Yanqi Zhang, Quenu Chen
 
 ## Objective
 Our team wants to establish a database that contains the Business Analyst (BA) opportunities in thirty largest states in the United States for users. The data we get is scraped mainly from Glassdoor. Users can get more vivid information about the position descriptions, salary ranges and average salaries through bar chart, state map and WordCloud. Moreover, users are able to find their desired position based on our filter system. Our job will make job-haunting process more convenient for users.
